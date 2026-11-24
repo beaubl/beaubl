@@ -4,7 +4,13 @@ I build full-stack web apps with Python and JavaScript. My recent work includes 
 
 ## ReelMatch
 
-A live movie picker for couples and groups. Each person swipes from their phone, and the room follows the group's progress on a shared screen. My work spans the Next.js client, FastAPI backend, and movie discovery. [Live app](https://reelmat.ch/) · [Engineering case study](projects/reelmatch.md)
+A real-time movie picker for groups. Everyone swipes from their phone on movies the room can stream through its selected services.
+
+**Stack** · Next.js, TypeScript, FastAPI, PostgreSQL
+
+[Try ReelMatch](https://reelmat.ch/) · [Quick start and case study](projects/reelmatch.md)
+
+[![ReelMatch homepage with Create Room and Join by Code controls](assets/reelmatch/home.jpg)](projects/reelmatch.md)
 
 ## TuneTwin
 
