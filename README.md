@@ -14,4 +14,10 @@ A real-time movie picker for groups. Everyone swipes from their phone on movies 
 
 ## TuneTwin
 
-A Spotify-based app for finding the music two people have in common. I work on the comparison flow across React and Flask, including how it handles slow scans, interrupted requests, and partial results. [Project site](https://tunetw.in/) · [Engineering case study](projects/tunetwin.md) · [Runnable JavaScript sample](https://github.com/beaubl/tunetwin-comparison-sample)
+TuneTwin compares two Spotify libraries and shows the songs they share as the scan runs. Listeners can find their shared deep cuts and save the matches as a playlist.
+
+**Stack** · React, Vite, Python, Flask, Spotify Web API
+
+[Try the built-in demo](https://tunetw.in/) · [Quick start and case study](projects/tunetwin.md) · [Comparison reader code](https://github.com/beaubl/tunetwin-comparison-sample)
+
+[![TuneTwin homepage with two intersecting waveforms beside the built-in comparison](assets/tunetwin/home.jpg)](projects/tunetwin.md)

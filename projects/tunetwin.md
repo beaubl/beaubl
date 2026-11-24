@@ -1,15 +1,61 @@
 # TuneTwin
 
-TuneTwin helps two listeners find shared music in their Spotify libraries and save a selection as a playlist. The app uses React and Vite on the frontend and Flask on the backend. [Visit TuneTwin](https://tunetw.in/)
+TuneTwin finds the songs two people have in common across their Spotify liked songs and playlists. Matches appear during the scan, and listeners can sort them by popularity or save a shared playlist.
 
-## Showing matches during a scan
+[Open TuneTwin](https://tunetw.in/) · [Quick start](#quick-start) · [Design decisions](#design-decisions)
 
-Reading saved tracks and playlists can take many requests. The comparison publishes matches in pages so listeners can start browsing while the scan continues. Each reader tracks its own position within a comparison run. A new run resets that position and clears the old results.
+## Quick start
 
-A lost response can be retried from the last accepted position. The client validates each page before advancing and merges matches by track ID so a repeated page preserves display order.
+**Try the homepage demo**
 
-## Reporting progress
+1. Select **Replay** above the **Live Stream** card. Watch the shared tracks appear while the two libraries are still being scanned.
+2. Select **Pause** to stop at any point and inspect the matches.
+3. Scroll to **Shared deep cuts** and select **Least Popular** to bring the lesser-known tracks to the top.
 
-Early in a scan, the system may know how many saved tracks it has read while it is still counting playlist entries. The UI waits for a confirmed total before showing a coverage percentage. This avoids showing full coverage while part of the library is still being counted.
+**Compare your own music**
 
-The code sample contains the page validation, track merge, and coverage logic, with regression tests and a demo that runs on synthetic data. [Run the comparison sample](https://github.com/beaubl/tunetwin-comparison-sample)
+Select **Start a room**, connect Spotify, and send a friend the room link. Once both listeners connect, you can compare your libraries and save the shared tracks to Spotify. The **Spotify access needed** notice explains how to request access for your account.
+
+## Inside TuneTwin
+
+**During the scan.** The example has found six shared tracks. Each listener can see how much of their library has been read.
+
+<p align="center">
+  <img src="../assets/tunetwin/live-scan.jpg" alt="TuneTwin’s public comparison demo paused at six shared tracks with the two libraries at 47 and 43 percent coverage" width="374">
+</p>
+
+**Find a deep cut.** The mobile example shows shared tracks after choosing **Least Popular**.
+
+<p align="center">
+  <img src="../assets/tunetwin/deep-cuts.jpg" alt="Shared deep cuts on a phone-sized screen after selecting Least Popular, with three tracks and album covers visible" width="382">
+</p>
+
+The screenshots show sample libraries and illustrative scores from TuneTwin’s public homepage.
+
+## Design decisions
+
+### Putting the comparison next to the headline
+
+We first tried a centered waveform and headline with the room demo underneath. In the next version, the demo moved beside the headline so visitors could see what a comparison looks like as soon as they landed. The first side-by-side version gave the demo the wider column. We adjusted the split to give the waveform and title more room and kept the single-column layout on phones. The two colored waves represent the listeners. Green appears where they overlap.
+
+### When one song looked like 100 percent
+
+Early in a scan, TuneTwin could read one liked song and show 100% coverage because the playlists hadn’t been counted yet. We held the percentage until each listener’s library total was confirmed. Matches could still show up as they were found.
+
+That made **Counting library** linger for someone with a long liked-songs list. The next version alternated pages of liked songs with pages that list playlists and their sizes. In one regression test, the scan confirmed a library of **1,250 entries** before it finished reading the **1,000 liked songs**.
+
+### Which release counts as a deep cut?
+
+The same song can have different Spotify popularity scores on a single, an album, and a reissue. We chose the highest verified score across releases of an already matched recording, using the recording’s ISRC to check which versions belong together.
+
+The first version waited for the library scan to finish before checking other releases. We moved those checks into the scan so a result could start with the best score already found in either library and update as catalog results came in. The scan checks one catalog page per advancing poll and rotates through tracks with pending lookups so a long search for one recording doesn’t hold up the others.
+
+## Tech stack
+
+| Layer | Technology |
+| --- | --- |
+| Web app | React, JavaScript, Vite, Framer Motion |
+| Backend | Python, Flask, SQLite for room presence |
+| Music integration | Spotify OAuth and Spotify Web API |
+
+The public comparison reader sample includes the coverage logic, result paging, and regression tests that run with synthetic data. [TuneTwin comparison reader](https://github.com/beaubl/tunetwin-comparison-sample)
